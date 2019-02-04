@@ -4,10 +4,10 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/resources/features",
+        features = "src/main/resources/features",
         glue = {"steps"}
 )
 
-public class Runner{
+public class TestRunner {
 
 }

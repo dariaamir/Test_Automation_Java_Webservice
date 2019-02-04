@@ -8,7 +8,7 @@ public class Posts {
     public Posts(){};
 
     private int userId;
-    private int ids;
+    private int id;
     private String title;
     private String body;
 
@@ -16,9 +16,9 @@ public class Posts {
 
     public void setUserId(int userId) {this.userId = userId;}
 
-    public int getIds() {return ids;}
+    public int getId() {return id;}
 
-    public void setIds(int ids) {this.ids = ids;}
+    public void setId(int id) {this.id = id;}
 
     public String getTitle() {return title;}
 

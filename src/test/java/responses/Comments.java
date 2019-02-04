@@ -13,13 +13,13 @@ public class Comments {
     private String email;
     private String body;
 
-    public int getPostID() {return postId;}
+    public int getPostId() {return postId;}
 
-    public void setPostID(int postID) {this.postId = postID;}
+    public void setPostId(int postId) {this.postId = postId;}
 
-    public int getCommentID() {return id;}
+    public int getId() {return id;}
 
-    public void setCommentID(int commentID) {this.id = commentID;}
+    public void setId(int id) {this.id = id;}
 
     public String getName() {return name;}
 

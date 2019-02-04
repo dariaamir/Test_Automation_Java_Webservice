@@ -1,6 +1,6 @@
 Feature: Posts API call returns list of all posts
 
-  Scenario Outline: Check a post author's id
+  Scenario Outline: Check comment post id
     When user requests for the comment by it's <id> as id
     Then response code is 200
     And response for the comment returns correct <postID> as post id
@@ -14,7 +14,7 @@ Feature: Posts API call returns list of all posts
       |500 |100    |
 
 
-  Scenario Outline: Check a post title
+  Scenario Outline: Check comment name
     When user requests for the comment by it's <id> as id
     Then response code is 200
     And response for the comment returns correct <name> as name
@@ -28,7 +28,7 @@ Feature: Posts API call returns list of all posts
     |500 |ex eaque eum natus                                             |
 
 
-  Scenario Outline: Check a post body
+  Scenario Outline: Check comment id
     When user requests for the comment by it's <id> as id
     Then response code is 200
     And response for the comment returns correct <email> as email
@@ -41,10 +41,10 @@ Feature: Posts API call returns list of all posts
     |379 |Afton.Medhurst@mina.info |
     |500 |Emma@joanny.ca          |
 
-  Scenario Outline: Check a post body
+  Scenario Outline: Check comment body
     When user requests for the comment by it's <id> as id
     Then response code is 200
-    And response for the comment returns correct comment <body> as body
+    And response for the comment returns correct <body> as body
 
     Examples:
       |id  |body                                                                                                                                                                        |

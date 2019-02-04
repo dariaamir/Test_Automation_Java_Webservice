@@ -52,7 +52,7 @@ public class RequestSender {
 
         switch (datatype) {
             case "postId":
-                response = String.valueOf((comment.getPostID()));
+                response = String.valueOf((comment.getPostId()));
                 break;
             case "name":
                 response = comment.getName();
