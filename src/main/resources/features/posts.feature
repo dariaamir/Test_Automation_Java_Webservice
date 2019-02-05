@@ -5,7 +5,7 @@ Feature: Posts API call returns list of all posts
   Scenario Outline: Check a post author's id
     When user requests for the post by it's <id> as id
     Then response code is 200
-    And response for the post returns correct <userID> as user ID
+    And response for the post returns correct user ID <userID>
 
     Examples:
       |id |userID |
@@ -18,7 +18,7 @@ Feature: Posts API call returns list of all posts
   Scenario Outline: Check a post title
   When user requests for the post by it's <id> as id
   Then response code is 200
-  And response for the post returns correct <title> as title
+  And response for the post returns correct title <title>
 
   Examples:
   |id |title                                                                     |
@@ -31,12 +31,12 @@ Feature: Posts API call returns list of all posts
   Scenario Outline: Check a post body
   When user requests for the post by it's <id> as id
   Then response code is 200
-  And response for the post returns correct <body> as body
+  And response for the post returns correct body <body>
 
   Examples:
-    |id |body                                                                                                                                                               |
-    |1  |"quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"|
-    |18 |"eveniet quo quis\nlaborum totam consequatur non dolor\nut et est repudiandae\nest voluptatem vel debitis et magnam"                                               |
-    |60 |"asperiores sunt ab assumenda cumque modi velit\nqui esse omnis\nvoluptate et fuga perferendis voluptas\nillo ratione amet aut et omnis"                           |
-    |76 |"ut animi facere\ntotam iusto tempore\nmolestiae eum aut et dolorem aperiam\nquaerat recusandae totam odio"                                                        |
-    |100|"cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut"            |
+    |id |body                                                                                                                                                           |
+    |1  |quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto |
+    |18 |eveniet quo quis laborum totam consequatur non dolor ut et est repudiandae est voluptatem vel debitis et magnam                                                |
+    |60 |asperiores sunt ab assumenda cumque modi velit qui esse omnis voluptate et fuga perferendis voluptas illo ratione amet aut et omnis                            |
+    |76 |ut animi facere totam iusto tempore molestiae eum aut et dolorem aperiam quaerat recusandae totam odio                                                         |
+    |100|cupiditate quo est a modi nesciunt soluta ipsa voluptas error itaque dicta in autem qui minus magnam et distinctio eum accusamus ratione error aut             |

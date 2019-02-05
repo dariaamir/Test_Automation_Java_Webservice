@@ -38,7 +38,7 @@ public class RequestSender {
                 response = post.getTitle();
                 break;
             case "body":
-                response = post.getBody();
+                response = post.getBody().replace("\n"," ");
                 break;
         }
         return response;
@@ -61,7 +61,7 @@ public class RequestSender {
                 response = comment.getEmail();
                 break;
             case "body":
-                response = comment.getBody();
+                response = comment.getBody().replace("\n"," ");
                 break;
         }
         return response;
