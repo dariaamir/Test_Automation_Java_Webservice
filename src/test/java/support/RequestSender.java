@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import responses.Comments;
 import responses.Posts;
+import responses.Todos;
 
 public class RequestSender {
 
@@ -62,6 +65,42 @@ public class RequestSender {
                 break;
             case "body":
                 response = comment.getBody().replace("\n"," ");
+                break;
+        }
+        return response;
+    }
+
+    public static int get_data_from_todos_group(String datatype, HttpURLConnection connection) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        ObjectMapper mapper = new ObjectMapper();
+        Todos[] groupOfTodos = mapper.readValue(br, Todos[].class);
+        int response = 0;
+        switch (datatype) {
+            case "all_todos_count":
+                response = groupOfTodos.length;
+                break;
+            case "all_completed_todos_count":
+                int count = 0;
+                for(Todos todo: groupOfTodos){
+                    if (todo.getCompleted() == true){
+                        count++;
+                    }
+                }
+                response = count;
+                break;
+        }
+        return response;
+    }
+
+    public static String get_data_from_todos(String datatype, HttpURLConnection connection) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        ObjectMapper mapper = new ObjectMapper();
+        Todos todo = mapper.readValue(br, Todos.class);
+        String response = "";
+
+        switch (datatype) {
+            case "status":
+                response = String.valueOf((todo.getCompleted()));
                 break;
         }
         return response;

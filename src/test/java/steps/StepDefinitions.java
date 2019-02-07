@@ -27,6 +27,16 @@ public class StepDefinitions {
         connection = RequestSender.establishCall(BaseURL + "comments/" + id);
     }
 
+    @When("^user requests for all todos by user id (.*)$")
+    public void user_requests_for_all_todos_by_user_id(int id) throws IOException {
+        connection = RequestSender.establishCall(BaseURL + "todos?userId=" + id);
+    }
+
+    @When("^user requests for todo by id (.*)$")
+    public void user_requests_for_todo_by_id(int id) throws IOException {
+        connection = RequestSender.establishCall(BaseURL + "todos/" + id);
+    }
+
     //Responces
 
     @Then("^response code is 200")
@@ -72,4 +82,19 @@ public class StepDefinitions {
         Assert.assertEquals(body, RequestSender.get_data_from_comment("body", connection));
     }
 
+    // Todos
+    @Then("^response returns correct number of todos (.*)")
+    public void response_returns_correct_number_of_todos(int number) throws IOException {
+        Assert.assertEquals(number, RequestSender.get_data_from_todos_group("all_todos_count", connection));
+    }
+
+    @Then("^response returns correct number of completed todos (.*)")
+    public void responseReturnsCorrectNumberOfCompletedTodos(int number) throws IOException {
+        Assert.assertEquals(number, RequestSender.get_data_from_todos_group("all_completed_todos_count", connection));
+    }
+
+    @Then("^response returns correct status (.*)")
+    public void responseReturnsCorrectStatus(String status) throws IOException {
+        Assert.assertEquals(status, RequestSender.get_data_from_todos("status", connection));
+    }
 }
