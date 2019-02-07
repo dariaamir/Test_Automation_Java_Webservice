@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 public class StepDefinitions {
 
     private String BaseURL = "https://jsonplaceholder.typicode.com/";
-    HttpURLConnection connection;
+    private HttpURLConnection connection;
 
     //Requests
 
@@ -45,6 +45,7 @@ public class StepDefinitions {
     }
 
     //Post
+
     @Then("^response for the post returns correct user ID (.*)")
     public void response_for_the_post_returns_correct_user_id(String ids) throws IOException {
         Assert.assertEquals(ids, RequestSender.get_data_from_post("author", connection));
