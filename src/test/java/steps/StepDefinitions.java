@@ -1,9 +1,11 @@
 package steps;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import responses.Posts;
 import support.RequestSender;
 
 import java.io.IOException;
@@ -19,29 +21,35 @@ public class StepDefinitions {
 
     @When("^user requests for the post by it's (.*) as id$")
     public void user_requests_for_the_post_by_its_id(int id) throws IOException {
-        connection = RequestSender.establishCall(BaseURL + "posts/" + id);
+        connection = RequestSender.establishCall("GET",BaseURL + "posts/" + id);
     }
 
     @When("^user requests for the comment by it's (.*) as id$")
     public void user_requests_for_the_comment_by_its_id(int id) throws IOException {
-        connection = RequestSender.establishCall(BaseURL + "comments/" + id);
+        connection = RequestSender.establishCall("GET",BaseURL + "comments/" + id);
     }
 
     @When("^user requests for all todos by user id (.*)$")
     public void user_requests_for_all_todos_by_user_id(int id) throws IOException {
-        connection = RequestSender.establishCall(BaseURL + "todos?userId=" + id);
+        connection = RequestSender.establishCall("GET",BaseURL + "todos?userId=" + id);
     }
 
     @When("^user requests for todo by id (.*)$")
     public void user_requests_for_todo_by_id(int id) throws IOException {
-        connection = RequestSender.establishCall(BaseURL + "todos/" + id);
+        connection = RequestSender.establishCall("GET", BaseURL + "todos/" + id);
     }
 
-    //Responces
+    @When("^user creates new post with parameters (\\S*) (\\S*) (\\S*)$")
+    public void userCreatesNewPostWithParameters(String title, String body, int userId) throws IOException {
+        connection = RequestSender.establishCall("POST", BaseURL + "posts");
+        RequestSender.writePost(connection, title, body, userId);
+    }
 
-    @Then("^response code is 200")
-    public void responce_code_is_200() throws IOException {
-        Assert.assertEquals(200, RequestSender.get_responce_code(connection));
+    //Responce codes
+
+    @Then("^response code is (\\d+)$")
+    public void responce_code_is(int code) throws IOException {
+        Assert.assertEquals(code, RequestSender.get_responce_code(connection));
     }
 
     //Post
@@ -59,6 +67,18 @@ public class StepDefinitions {
     @Then("^response for the post returns correct body (.+)")
     public void response_for_the_post_returns_correct_body(String body) throws IOException {
         Assert.assertEquals(body, RequestSender.get_data_from_post("body", connection));
+    }
+
+    @Then("^response contains new post id (.+)")
+    public void responseContainsNewPostId(String postId) throws IOException {
+        Assert.assertEquals(postId, RequestSender.get_data_from_post("id",connection));
+    }
+
+    @Then("^response contains сorrect parameters (\\S*) (\\S*) (\\S*)")
+    public void responseContainsCorrectparameters(String body, String title, String userId) throws IOException {
+        Assert.assertEquals(body, RequestSender.get_data_from_post("body",connection));
+        Assert.assertEquals(title, RequestSender.get_data_from_post("title",connection));
+        Assert.assertEquals(userId, RequestSender.get_data_from_post("userId",connection));
     }
 
     // Comment
@@ -98,4 +118,9 @@ public class StepDefinitions {
     public void responseReturnsCorrectStatus(String status) throws IOException {
         Assert.assertEquals(status, RequestSender.get_data_from_todos("status", connection));
     }
+
+//    @AfterClass()
+//    public void afterScenario() {
+//        connection.disconnect();
+//    }
 }

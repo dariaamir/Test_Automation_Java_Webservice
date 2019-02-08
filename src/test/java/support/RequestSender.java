@@ -3,13 +3,11 @@ package support;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectWriter;
 import responses.Comments;
 import responses.Posts;
 import responses.Todos;
@@ -18,9 +16,11 @@ public class RequestSender {
 
     public RequestSender(){};
 
-    public static HttpURLConnection establishCall(String url) throws IOException{
+    public static HttpURLConnection establishCall(String method, String url) throws IOException{
         URL obj = new URL(url);
-        return (HttpURLConnection) obj.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        connection.setRequestMethod(method);
+        return connection;
     }
 
     public static int get_responce_code(HttpURLConnection connection) throws IOException {
@@ -42,6 +42,9 @@ public class RequestSender {
                 break;
             case "body":
                 response = post.getBody().replace("\n"," ");
+                break;
+            case "id":
+                response = String.valueOf(post.getId());
                 break;
         }
         return response;
@@ -104,6 +107,17 @@ public class RequestSender {
                 break;
         }
         return response;
+    }
+
+    public static void writePost(HttpURLConnection connection, String title, String body, int userId) throws IOException{
+        connection.setDoOutput(true);
+        OutputStream os = connection.getOutputStream();
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+        Posts post = new Posts(1, userId = userId, title = title, body = body);
+        String json = ow.writeValueAsString(post);
+        os.write(json.getBytes("UTF-8"));
+        os.close();
     }
 }
 
