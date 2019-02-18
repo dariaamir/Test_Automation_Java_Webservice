@@ -2,10 +2,8 @@ package steps;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import responses.Posts;
 import support.RequestSender;
 
 import java.io.IOException;
@@ -34,15 +32,21 @@ public class StepDefinitions {
         connection = RequestSender.establishCall("GET",BaseURL + "todos?userId=" + id);
     }
 
-    @When("^user requests for todo by id (.*)$")
+    @When("^user requests for todo by id (\\d+)$")
     public void user_requests_for_todo_by_id(int id) throws IOException {
         connection = RequestSender.establishCall("GET", BaseURL + "todos/" + id);
     }
 
-    @When("^user creates new post with parameters (\\S*) (\\S*) (\\S*)$")
+    @When("^user creates new post with parameters ([\\w ]*), ([\\w ]*) and (.*)$")
     public void userCreatesNewPostWithParameters(String title, String body, int userId) throws IOException {
         connection = RequestSender.establishCall("POST", BaseURL + "posts");
         RequestSender.writePost(connection, title, body, userId);
+    }
+
+    @When("^user finds a post by id (\\d+) and updates one field ([\\w ]*) with new value ([\\w ]*)$")
+    public void userUpdatesPostFieldWithNewValue(int id, String post_field, String new_value) throws IOException {
+        connection = RequestSender.establishCall("POST", BaseURL + "posts/" + id);
+        RequestSender.patchPost(connection, post_field, new_value);
     }
 
     //Responce codes
@@ -74,11 +78,9 @@ public class StepDefinitions {
         Assert.assertEquals(postId, RequestSender.get_data_from_post("id",connection));
     }
 
-    @Then("^response contains сorrect parameters (\\S*) (\\S*) (\\S*)")
-    public void responseContainsCorrectparameters(String body, String title, String userId) throws IOException {
-        Assert.assertEquals(body, RequestSender.get_data_from_post("body",connection));
-        Assert.assertEquals(title, RequestSender.get_data_from_post("title",connection));
-        Assert.assertEquals(userId, RequestSender.get_data_from_post("userId",connection));
+    @Then("^response returns updated value ([\\w ]*) at the changed field ([\\w ]*)")
+    public void responseReturnsUpdatedValueAtTheChangedField(String changedValue, String postField) throws IOException {
+        Assert.assertEquals(changedValue, RequestSender.get_data_from_post(postField,connection));
     }
 
     // Comment
@@ -119,8 +121,8 @@ public class StepDefinitions {
         Assert.assertEquals(status, RequestSender.get_data_from_todos("status", connection));
     }
 
-//    @AfterClass()
-//    public void afterScenario() {
-//        connection.disconnect();
-//    }
+    @AfterClass()
+    public void afterScenario() {
+        connection.disconnect();
+    }
 }

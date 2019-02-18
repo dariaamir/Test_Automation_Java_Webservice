@@ -7,9 +7,9 @@ public class Posts {
 
     public Posts(){};
 
-    public Posts(int userId, int id, String title, String body){
+    public Posts(int userId, String title, String body){
         this.userId = userId;
-        this.id = id;
+        this.id = 1;
         this.title = title;
         this.body = body;
     };

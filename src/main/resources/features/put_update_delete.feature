@@ -1,28 +1,39 @@
 Feature: User is able to create, edit and delete posts
 
   Scenario Outline: Create post
-    When user creates new post with parameters <title>, <body>, <userId>
+    When user creates new post with parameters <title>, <body> and <userId>
     Then response code is 201
     And response contains new post id <postId>
-    And response contains сorrect parameters <title>, <body>, <userId>
+
 
     Examples:
-      |title  |body | userId | postId|
-      |foo    |boo  | 1      | 101   |
+      |title                      |body                        | userId | postId|
+      |Lorem ipsum dolor sit amet |consectetur adipiscing elit | 1      | 101   |
 
 
-  Scenario Outline: Update post
-    When user updates a post field with value
+  Scenario Outline: Update all post
+    When user updates a post with new values
     Then response code is 200
-    And response returns updated value
+    And response returns updated values
 
     Examples:
-    |id |name                                                            |
-    |1   |id labore ex et quam laborum                                   |
-    |100 |et sint quia dolor et est ea nulla cum                         |
-    |161 |nesciunt quidem veritatis alias odit nisi voluptatem non est   |
-    |276 |inventore amet ut debitis ipsam reiciendis molestiae autem sed |
-    |500 |ex eaque eum natus                                             |
+      |post_field |new_value                   |
+      |userID     | 2                          |
+      |title      |Lorem ipsum dolor sit ametm |
+      |body       |consectetur adipiscing elit |
+
+
+  Scenario Outline: Update one value in the post
+    When user finds a post by id <postId> and updates one field <post_field> with new value <new_value>
+    Then response code is 200
+    And response returns updated value <new_value> at the changed field <post_field>
+
+    Examples:
+    |postId|post_field |new_value                   |
+    |1     |userID     | 2                          |
+    |2     |title      |Lorem ipsum dolor sit ametm |
+    |3     |body       |consectetur adipiscing elit |
+
 
 
   Scenario Outline: Delete post

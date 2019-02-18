@@ -16,6 +16,7 @@ public class RequestSender {
 
     public RequestSender(){};
 
+
     public static HttpURLConnection establishCall(String method, String url) throws IOException{
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
@@ -41,7 +42,8 @@ public class RequestSender {
                 response = post.getTitle();
                 break;
             case "body":
-                response = post.getBody().replace("\n"," ");
+                String body = post.getBody();
+                response = (body.contains("\n")) ? response = body.replace("\n"," ") : body;
                 break;
             case "id":
                 response = String.valueOf(post.getId());
@@ -85,7 +87,7 @@ public class RequestSender {
             case "all_completed_todos_count":
                 int count = 0;
                 for(Todos todo: groupOfTodos){
-                    if (todo.getCompleted() == true){
+                    if (todo.getCompleted()){
                         count++;
                     }
                 }
@@ -114,8 +116,18 @@ public class RequestSender {
         OutputStream os = connection.getOutputStream();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
-        Posts post = new Posts(1, userId = userId, title = title, body = body);
+        Posts post = new Posts(userId = userId, title = title, body = body);
         String json = ow.writeValueAsString(post);
+        os.write(json.getBytes("UTF-8"));
+        os.close();
+    }
+
+    public static void patchPost(HttpURLConnection connection, String post_field, String new_value) throws IOException{
+        connection.setDoOutput(true);
+        OutputStream os = connection.getOutputStream();
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+        String json = String.format("{\"%s\":\"%s\"}", post_field, new_value);
         os.write(json.getBytes("UTF-8"));
         os.close();
     }
