@@ -59,7 +59,7 @@ Feature: Comments API call returns list of all comments
     Then response code is 404
 
     Examples:
-      |id |
-      |0  |
-      |-1 |
+      |id  |
+      |0   |
+      |-1  |
       |856 |

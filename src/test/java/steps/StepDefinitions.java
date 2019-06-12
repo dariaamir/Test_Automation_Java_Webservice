@@ -32,7 +32,7 @@ public class StepDefinitions {
         connection = RequestSender.establishCall("GET",BaseURL + "todos?userId=" + id);
     }
 
-    @When("^user requests for todo by id (\\d+)$")
+    @When("^user requests for todo by id (.*)$")
     public void user_requests_for_todo_by_id(int id) throws IOException {
         connection = RequestSender.establishCall("GET", BaseURL + "todos/" + id);
     }
@@ -119,6 +119,11 @@ public class StepDefinitions {
     @Then("^response returns correct status (.*)")
     public void responseReturnsCorrectStatus(String status) throws IOException {
         Assert.assertEquals(status, RequestSender.get_data_from_todos("status", connection));
+    }
+
+    @Then("^todos list is empty$")
+    public void todosListLsEmpty() throws IOException {
+        Assert.assertEquals(0, RequestSender.get_data_from_todos_group("all_todos_count", connection));
     }
 
     @AfterClass()

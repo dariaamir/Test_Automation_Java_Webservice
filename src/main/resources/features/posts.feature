@@ -45,7 +45,7 @@ Feature: Posts API call returns list of all posts
       Then response code is 404
 
       Examples:
-        |id |
-        |0  |
-        |-1 |
+        |id  |
+        |0   |
+        |-1  |
         |856 |
