@@ -20,7 +20,7 @@ Feature: Comments API call returns list of all comments
     And response for the comment returns correct name <name>
 
     Examples:
-    |id |name                                                            |
+    |id  |name                                                           |
     |1   |id labore ex et quam laborum                                   |
     |100 |et sint quia dolor et est ea nulla cum                         |
     |161 |nesciunt quidem veritatis alias odit nisi voluptatem non est   |
@@ -53,3 +53,13 @@ Feature: Comments API call returns list of all comments
       |119 |et omnis consequatur ut in suscipit et voluptatem animi at ut dolores quos aut numquam esse praesentium aut placeat nam                                                  |
       |433 |voluptatem minus asperiores quasi perspiciatis et aut blanditiis illo deserunt molestiae ab aperiam ex minima sed omnis at et repellat aut incidunt                      |
       |500 |perspiciatis quis doloremque veniam nisi eos velit sed id totam inventore voluptatem laborum et eveniet aut aut aut maxime quia temporibus ut omnis                      |
+
+  Scenario Outline: Check that call for not-exiting comment returns 404
+    When user requests for the comment by it's <id> as id
+    Then response code is 404
+
+    Examples:
+      |id |
+      |0  |
+      |-1 |
+      |856 |

@@ -11,7 +11,7 @@ Feature: User is able to create, edit and delete posts
       |Lorem ipsum dolor sit amet |consectetur adipiscing elit | 1      | 101   |
 
 
-  Scenario Outline: Update all post
+  Scenario Outline: Update a post
     When user updates a post with new values
     Then response code is 200
     And response returns updated values
