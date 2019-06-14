@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import cucumber.api.java.sl.In;
 import responses.Comments;
 import responses.Posts;
 import responses.Todos;
@@ -48,6 +49,12 @@ public class RequestSender {
             case "id":
                 response = String.valueOf(post.getId());
                 break;
+            case "all":
+                String author = String.valueOf(post.getUserId());
+                String title = post.getTitle();
+                body = post.getBody();
+                body = (body.contains("\n")) ? body = body.replace("\n"," ") : body;
+                response = author + " " + title + " " + body;
         }
         return response;
     }
@@ -122,12 +129,25 @@ public class RequestSender {
         os.close();
     }
 
-    public static void patchPost(HttpURLConnection connection, String post_field, String new_value) throws IOException{
+    public static void patchPost(HttpURLConnection connection, int old_userID, String old_title, String old_body, String post_field, String new_value) throws IOException{
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        Posts post = new Posts(old_userID, old_title, old_body);
 
-        String json = String.format("{\"%s\":\"%s\"}", post_field, new_value);
+        switch (post_field){
+            case "userID":
+                post.setUserId(Integer.parseInt(new_value));
+                break;
+            case "title":
+                post.setTitle(new_value);
+                break;
+            case "body":
+                post.setTitle(new_value);
+                break;
+        }
+
+        String json = ow.writeValueAsString(post);
         os.write(json.getBytes("UTF-8"));
         os.close();
     }

@@ -2,6 +2,7 @@ package steps;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.sl.In;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import support.RequestSender;
@@ -45,8 +46,14 @@ public class StepDefinitions {
 
     @When("^user finds a post by id (\\d+) and updates one field ([\\w ]*) with new value ([\\w ]*)$")
     public void userUpdatesPostFieldWithNewValue(int id, String post_field, String new_value) throws IOException {
-        connection = RequestSender.establishCall("POST", BaseURL + "posts/" + id);
-        RequestSender.patchPost(connection, post_field, new_value);
+        connection = RequestSender.establishCall("GET",BaseURL + "posts/" + id);
+        String post = RequestSender.get_data_from_post("all", connection);
+        int old_userID = Integer.parseInt(post.split(" ")[0]);
+        String old_title = post.split(" ")[1];
+        String old_body = post.split(" ")[2];
+
+        connection = RequestSender.establishCall("PUT", BaseURL + "posts/" + id);
+        RequestSender.patchPost(connection, old_userID, old_title, old_body, post_field, new_value);
     }
 
     //Responce codes
@@ -81,6 +88,11 @@ public class StepDefinitions {
     @Then("^response returns updated value ([\\w ]*) at the changed field ([\\w ]*)")
     public void responseReturnsUpdatedValueAtTheChangedField(String changedValue, String postField) throws IOException {
         Assert.assertEquals(changedValue, RequestSender.get_data_from_post(postField,connection));
+    }
+
+    @Then("^user deleted post by post id (.+)")
+    public void userDeletedPostByPostId(String id) throws IOException {
+        connection = RequestSender.establishCall("DELETE", BaseURL + "posts/" + id);
     }
 
     // Comment
