@@ -118,7 +118,7 @@ public class RequestSender {
         return response;
     }
 
-    public static void writePost(HttpURLConnection connection, String title, String body, int userId) throws IOException{
+    public static void writePost(HttpURLConnection connection, String title, String body, String userId) throws IOException{
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -129,7 +129,7 @@ public class RequestSender {
         os.close();
     }
 
-    public static void patchPost(HttpURLConnection connection, int old_userID, String old_title, String old_body, String post_field, String new_value) throws IOException{
+    public static void patchPost(HttpURLConnection connection, String old_userID, String old_title, String old_body, String post_field, String new_value) throws IOException{
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -137,7 +137,7 @@ public class RequestSender {
 
         switch (post_field){
             case "userID":
-                post.setUserId(Integer.parseInt(new_value));
+                post.setUserId(new_value);
                 break;
             case "title":
                 post.setTitle(new_value);

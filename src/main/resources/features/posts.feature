@@ -1,22 +1,26 @@
 Feature: Posts API call returns list of all posts
 
   Scenario Outline: Check a post author's id
-    When user requests for the post by it's <id> as id
+    When user requests for the post by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the post returns correct user ID <userID>
+    And response for the post returns correct user ID
+      |author|<authorID>|
 
     Examples:
-      |id |userID |
-      |1  |1      |
-      |17 |2      |
-      |55 |6      |
-      |80 |8      |
-      |100|10     |
+      |id |authorID |
+      |1  |1        |
+      |17 |2        |
+      |55 |6        |
+      |80 |8        |
+      |100|10       |
 
   Scenario Outline: Check a post title
-    When user requests for the post by it's <id> as id
+    When user requests for the post by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the post returns correct title <title>
+    And response for the post returns correct title
+      |title|<title>|
 
     Examples:
     |id |title                                                                     |
@@ -27,9 +31,11 @@ Feature: Posts API call returns list of all posts
     |100|at nam consequatur ea labore ea harum                                     |
 
   Scenario Outline: Check a post body
-    When user requests for the post by it's <id> as id
+    When user requests for the post by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the post returns correct body <body>
+    And response for the post returns correct body
+      |body|<body>|
 
     Examples:
       |id |body                                                                                                                                                           |
@@ -41,7 +47,8 @@ Feature: Posts API call returns list of all posts
 
 
     Scenario Outline: Check that call for not-exiting post returns 404
-      When user requests for the post by it's <id> as id
+      When user requests for the post by it's id
+        |id|<id>|
       Then response code is 404
 
       Examples:

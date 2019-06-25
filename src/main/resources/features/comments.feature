@@ -1,9 +1,11 @@
 Feature: Comments API call returns list of all comments
 
   Scenario Outline: Check comment post id
-    When user requests for the comment by it's <id> as id
+    When user requests for the comment by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the comment returns correct post id <postID>
+    And response for the comment returns correct post id
+      |postID|<postID>|
 
     Examples:
       |id  |postID |
@@ -15,9 +17,11 @@ Feature: Comments API call returns list of all comments
 
 
   Scenario Outline: Check comment name
-    When user requests for the comment by it's <id> as id
+    When user requests for the comment by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the comment returns correct name <name>
+    And response for the comment returns correct name
+      |name|<name>|
 
     Examples:
     |id  |name                                                           |
@@ -29,9 +33,11 @@ Feature: Comments API call returns list of all comments
 
 
   Scenario Outline: Check comment id
-    When user requests for the comment by it's <id> as id
+    When user requests for the comment by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the comment returns correct email <email>
+    And response for the comment returns correct email
+      |email|<email>|
 
   Examples:
     |id  |email                   |
@@ -42,9 +48,11 @@ Feature: Comments API call returns list of all comments
     |500 |Emma@joanny.ca          |
 
   Scenario Outline: Check comment body
-    When user requests for the comment by it's <id> as id
+    When user requests for the comment by it's id
+      |id|<id>|
     Then response code is 200
-    And response for the comment returns correct body <body>
+    And response for the comment returns correct body
+      |body|<body>|
 
     Examples:
       |id  |body                                                                                                                                                                     |
@@ -55,7 +63,8 @@ Feature: Comments API call returns list of all comments
       |500 |perspiciatis quis doloremque veniam nisi eos velit sed id totam inventore voluptatem laborum et eveniet aut aut aut maxime quia temporibus ut omnis                      |
 
   Scenario Outline: Check that call for not-exiting comment returns 404
-    When user requests for the comment by it's <id> as id
+    When user requests for the comment by it's id
+      |id|<id>|
     Then response code is 404
 
     Examples:

@@ -7,21 +7,21 @@ public class Posts {
 
     public Posts(){};
 
-    public Posts(int userId, String title, String body){
+    public Posts(String userId, String title, String body){
         this.userId = userId;
         this.id = 1;
         this.title = title;
         this.body = body;
     };
 
-    private int userId;
+    private String userId;
     private int id;
     private String title;
     private String body;
 
-    public int getUserId() {return userId;}
+    public String getUserId() {return userId;}
 
-    public void setUserId(int userId) {this.userId = userId;}
+    public void setUserId(String userId) {this.userId = userId;}
 
     public int getId() {return id;}
 

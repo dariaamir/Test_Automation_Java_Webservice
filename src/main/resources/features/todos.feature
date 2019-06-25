@@ -3,9 +3,11 @@ Feature: Todos API call returns list of all todos
   Background:
 
   Scenario Outline: Get all todos for user
-    When user requests for all todos by user id <id>
+    When user requests for all todos by user id
+      |id|<id>|
     Then response code is 200
-    And response returns correct number of todos <number>
+    And response returns correct number of todos
+      |number|<number>|
 
     Examples:
       |id |number |
@@ -14,9 +16,11 @@ Feature: Todos API call returns list of all todos
       |10 |20     |
 
   Scenario Outline: Get number of completed todos
-    When user requests for all todos by user id <id>
+    When user requests for all todos by user id
+      |id|<id>|
     Then response code is 200
-    And response returns correct number of completed todos <number>
+    And response returns correct number of completed todos
+      |number|<number>|
 
     Examples:
       |id |number|
@@ -25,9 +29,11 @@ Feature: Todos API call returns list of all todos
       |9  |8     |
 
   Scenario Outline: Get todo status
-    When user requests for todo by id <id>
+    When user requests for todo by id
+      |id|<id>|
     Then response code is 200
-    And response returns correct status <status>
+    And response returns correct status
+      |status|<status>|
 
     Examples:
       |id  |status |
@@ -36,7 +42,8 @@ Feature: Todos API call returns list of all todos
       |100 |false  |
 
   Scenario Outline: Check that call for not-exiting user returns empty list
-    When user requests for all todos by user id <id>
+    When user requests for all todos by user id
+      |id|<id>|
     Then todos list is empty
 
     Examples:
@@ -46,7 +53,8 @@ Feature: Todos API call returns list of all todos
       |505 |
 
   Scenario Outline: Check that call for not-exiting todo returns 404
-    When user requests for todo by id <id>
+    When user requests for todo by id
+      |id|<id>|
     Then response code is 404
 
     Examples:
