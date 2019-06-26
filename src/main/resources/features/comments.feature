@@ -2,10 +2,12 @@ Feature: Comments API call returns list of all comments
 
   Scenario Outline: Check comment post id
     When user requests for the comment by it's id
-      |id|<id>|
+      |id        |<id>|
     Then response code is 200
     And response for the comment returns correct post id
-      |postID|<postID>|
+      |postID    |<postID>|
+      |comparator|=       |
+
 
     Examples:
       |id  |postID |

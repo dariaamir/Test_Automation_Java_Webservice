@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import cucumber.api.java.sl.In;
@@ -17,7 +19,19 @@ public class RequestSender {
 
     public RequestSender(){};
 
-
+//    public static String requestSend(String callMethod, String callURL, String responseType) throws IOException{
+//        URL obj = new URL(callURL);
+//        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+//        connection.setRequestMethod(callMethod);
+//
+//        String response = "";
+//
+//        System.out.println(connection.getResponseCode());
+//        Scanner scan = new Scanner(url.openStream());
+//
+//
+//        return response;
+//    }
     public static HttpURLConnection establishCall(String method, String url) throws IOException{
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
