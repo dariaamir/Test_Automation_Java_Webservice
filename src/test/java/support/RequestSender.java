@@ -1,37 +1,57 @@
 package support;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import cucumber.api.java.sl.In;
+import com.jayway.jsonpath.JsonPath;
+import org.json.JSONArray;
 import responses.Comments;
 import responses.Posts;
 import responses.Todos;
+import org.json.JSONObject;
+
 
 public class RequestSender {
 
     public RequestSender(){};
+    private static int responseCode;
+    private static String responseBody;
 
-//    public static String requestSend(String callMethod, String callURL, String responseType) throws IOException{
-//        URL obj = new URL(callURL);
-//        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-//        connection.setRequestMethod(callMethod);
-//
-//        String response = "";
-//
-//        System.out.println(connection.getResponseCode());
-//        Scanner scan = new Scanner(url.openStream());
-//
-//
-//        return response;
-//    }
+    public static void requestSend(String callMethod, String callURL) throws IOException {
+        URL url = new URL(callURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod(callMethod);
+
+        responseCode = connection.getResponseCode();
+
+        responseBody = "";
+        if (connection.getResponseCode() == 200 || connection.getResponseCode() == 201){
+            Scanner scan = new Scanner(url.openStream());
+            while (scan.hasNext()){
+                responseBody += scan.nextLine() + "\n";
+            }
+        }
+    }
+
+    public static int getResponseCodeFromCall(){
+        return responseCode;
+    }
+
+    public static String getResponseBodyElementFromCall(String element){
+        JSONObject responseBodyJSON = new JSONObject(responseBody);
+        return responseBodyJSON.get(element).toString();
+    }
+
+    public static int getResponseBodyNumberOfElementsFromCall(String searchString){
+        List <String> array = JsonPath.parse(responseBody).read(searchString);
+        return array.size();
+    }
+
     public static HttpURLConnection establishCall(String method, String url) throws IOException{
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
