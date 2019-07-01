@@ -24,28 +24,28 @@ public class StepDefinitions {
     public void user_requests_for_the_post_by_its_id(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String id = dataMap.get("id");
-        RequestSender.requestSend("GET",BaseURL + "posts/" + id);
+        RequestSender.requestSend("GET",BaseURL + "posts/" + id, "");
     }
 
     @When("^user requests for the comment by it's id$")
     public void user_requests_for_the_comment_by_its_id(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String id = dataMap.get("id");
-        RequestSender.requestSend("GET",BaseURL + "comments/" + id);
+        RequestSender.requestSend("GET",BaseURL + "comments/" + id, "");
     }
 
     @When("^user requests for all todos by user id$")
     public void user_requests_for_all_todos_by_user_id(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String id = dataMap.get("id");
-        RequestSender.requestSend("GET",BaseURL + "todos?userId=" + id);
+        RequestSender.requestSend("GET",BaseURL + "todos?userId=" + id, "");
     }
 
     @When("^user requests for todo by id$")
     public void user_requests_for_todo_by_id(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String id = dataMap.get("id");
-        RequestSender.requestSend("GET", BaseURL + "todos/" + id);
+        RequestSender.requestSend("GET", BaseURL + "todos/" + id, "");
     }
 
     @When("^user creates new post with parameters$")
@@ -54,8 +54,8 @@ public class StepDefinitions {
         String title = dataMap.get("title");
         String body = dataMap.get("body");
         String userId = dataMap.get("userId");
-        connection = RequestSender.establishCall("POST", BaseURL + "posts");
-        RequestSender.writePost(connection, title, body, userId);
+        String callBody = String.format("{\"title\": \"%s\", \"body\": \"%s\", \"userId\": %s}", title, body, userId);
+        RequestSender.requestSend("POST", BaseURL + "posts", callBody);
     }
 
     @When("^user finds a post by id and updates one field with new value$")
@@ -114,9 +114,9 @@ public class StepDefinitions {
         String body = dataMap.get("body");
         String userId = dataMap.get("userId");
 
-        Assert.assertEquals(userId, RequestSender.get_data_from_post("all",connection).split(" ")[0]);
-        Assert.assertEquals(title, RequestSender.get_data_from_post("title",connection));
-        Assert.assertEquals(body, RequestSender.get_data_from_post("body",connection));
+        Assert.assertEquals(title, RequestSender.getResponseBodyElementFromCall("title"));
+        Assert.assertEquals(body, RequestSender.getResponseBodyElementFromCall("body"));
+        Assert.assertEquals(userId, RequestSender.getResponseBodyElementFromCall("userId"));
     }
 
     @Then("^response returns updated value at the changed field$")

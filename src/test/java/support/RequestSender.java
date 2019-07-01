@@ -4,12 +4,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jayway.jsonpath.JsonPath;
-import org.json.JSONArray;
 import responses.Comments;
 import responses.Posts;
 import responses.Todos;
@@ -22,20 +19,29 @@ public class RequestSender {
     private static int responseCode;
     private static String responseBody;
 
-    public static void requestSend(String callMethod, String callURL) throws IOException {
+    public static void requestSend(String callMethod, String callURL, String callBody) throws IOException {
         URL url = new URL(callURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(callMethod);
+
+        if (!callBody.equals("")){
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            out.writeBytes(callBody);
+        }
 
         responseCode = connection.getResponseCode();
 
         responseBody = "";
         if (connection.getResponseCode() == 200 || connection.getResponseCode() == 201){
-            Scanner scan = new Scanner(url.openStream());
-            while (scan.hasNext()){
-                responseBody += scan.nextLine() + "\n";
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null){
+                responseBody += inputLine + "\n";
             }
         }
+        System.out.println(responseBody);
     }
 
     public static int getResponseCodeFromCall(){
