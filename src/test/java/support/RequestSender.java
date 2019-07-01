@@ -22,7 +22,13 @@ public class RequestSender {
     public static void requestSend(String callMethod, String callURL, String callBody) throws IOException {
         URL url = new URL(callURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod(callMethod);
+        if (callMethod.equals("PATCH")){
+            connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            connection.setRequestMethod("POST");
+        }
+        else {
+            connection.setRequestMethod(callMethod);
+        }
 
         if (!callBody.equals("")){
             connection.setDoOutput(true);
@@ -46,6 +52,10 @@ public class RequestSender {
 
     public static int getResponseCodeFromCall(){
         return responseCode;
+    }
+
+    public static String getResponseBodyFromCall(){
+        return responseBody;
     }
 
     public static String getResponseBodyElementFromCall(String element){

@@ -3,6 +3,7 @@ package steps;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.en.And;
 import cucumber.api.java.sl.In;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -65,16 +66,8 @@ public class StepDefinitions {
         String post_field = dataMap.get("post_field");
         String new_value = dataMap.get("new_value");
         String postID = dataMap.get("postID");
-
-
-        connection = RequestSender.establishCall("GET",BaseURL + "posts/" + postID);
-        String post = RequestSender.get_data_from_post("all", connection);
-        String old_userID = post.split(" ")[0];
-        String old_title = post.split(" ")[1];
-        String old_body = post.split(" ")[2];
-
-        connection = RequestSender.establishCall("PUT", BaseURL + "posts/" + postID);
-        RequestSender.patchPost(connection, old_userID, old_title, old_body, post_field, new_value);
+        String callBody = String.format("{\"%s\": \"%s\"}", post_field, new_value);
+        RequestSender.requestSend("PATCH", BaseURL + "posts/" + postID, callBody);
     }
 
     //Responce codes
@@ -124,14 +117,20 @@ public class StepDefinitions {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String postField = dataMap.get("post_field");
         String changedValue = dataMap.get("new_value");
-        Assert.assertEquals(changedValue, RequestSender.get_data_from_post(postField,connection));
+        Assert.assertEquals(changedValue, RequestSender.getResponseBodyElementFromCall(postField));
     }
 
     @Then("^user deleted post by post id$")
     public void userDeletedPostByPostId(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String id = dataMap.get("postID");
-        connection = RequestSender.establishCall("DELETE", BaseURL + "posts/" + id);
+        RequestSender.requestSend("DELETE", BaseURL + "posts/" + id, "");
+    }
+
+    @And("^response body is empty$")
+    public void responseBodyIsEmpty(){
+        String emptyResponse = "{}\n";
+        Assert.assertEquals(emptyResponse, RequestSender.getResponseBodyFromCall());
     }
 
     // Comment
