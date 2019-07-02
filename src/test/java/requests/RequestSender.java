@@ -1,15 +1,10 @@
-package support;
+package requests;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jayway.jsonpath.JsonPath;
-import responses.Comments;
-import responses.Posts;
-import responses.Todos;
 import org.json.JSONObject;
 
 
@@ -59,6 +54,14 @@ public class RequestSender {
 
     public static String getResponseBodyElementFromCall(String element){
         JSONObject responseBodyJSON = new JSONObject(responseBody);
+        return responseBodyJSON.get(element).toString();
+    }
+
+    public static String getResponseBodyNestedElementFromCall(String element, String... nodes){
+        JSONObject responseBodyJSON = new JSONObject(responseBody);
+        for (int i = 0; i < nodes.length; i++) {
+            responseBodyJSON = responseBodyJSON.getJSONObject(nodes[i]);
+        }
         return responseBodyJSON.get(element).toString();
     }
 

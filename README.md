@@ -9,3 +9,7 @@ Webservice: https://jsonplaceholder.typicode.com/
 - Java
 - Maven
 - Cucumber
+
+**2 different ways to add/retreive data:**
+- JSONPath (in the features: "comments", "posts", "put_update_delete" and "todos")
+- Java objects (in the feature "users")

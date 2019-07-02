@@ -1,12 +1,16 @@
 package steps;
 
+import classes.Users;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import support.RequestSender;
+import requests.RequestSender;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -202,6 +206,69 @@ public class StepDefinitions {
     public void todosListLsEmpty(){
         String emptyResponse = "[]\n";
         Assert.assertEquals(emptyResponse, RequestSender.getResponseBodyFromCall());
+    }
+
+    //Users
+    @When("^user sends request to create new user with required data$")
+    public void userSendsRequestToCreateNewUserWithRequiredData(DataTable dataTable) throws IOException {
+        Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
+        String name = dataMap.get("name");
+        String username = dataMap.get("username");
+        String email = dataMap.get("email");
+        String street = dataMap.get("street");
+        String suite = dataMap.get("suite");
+        String city = dataMap.get("city");
+        String zipcode = dataMap.get("zipcode");
+        String lat = dataMap.get("lat");
+        String lng = dataMap.get("lng");
+        String phone = dataMap.get("phone");
+        String website = dataMap.get("website");
+        String c_name = dataMap.get("c_name");
+        String catchPhrase = dataMap.get("catchPhrase");
+        String bs = dataMap.get("bs");
+
+        Users.Company company = new Users.Company(c_name, catchPhrase, bs);
+        Users.Geo geo = new Users.Geo(lat, lng);
+        Users.Address address = new Users.Address(street, suite, city, zipcode, geo);
+        Users user = new Users(name, username, email, address, phone, website, company);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String requestBody = ow.writeValueAsString(user);
+        RequestSender.requestSend("POST", BaseURL + "users", requestBody);
+    }
+
+    @Then("^response returns correct user data$")
+    public void responseReturnsCorrectUserData(DataTable dataTable) throws IOException {
+        Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
+        String name = dataMap.get("name");
+        String username = dataMap.get("username");
+        String email = dataMap.get("email");
+        String street = dataMap.get("street");
+        String suite = dataMap.get("suite");
+        String city = dataMap.get("city");
+        String zipcode = dataMap.get("zipcode");
+        String lat = dataMap.get("lat");
+        String lng = dataMap.get("lng");
+        String phone = dataMap.get("phone");
+        String website = dataMap.get("website");
+        String c_name = dataMap.get("c_name");
+        String catchPhrase = dataMap.get("catchPhrase");
+        String bs = dataMap.get("bs");
+
+        Assert.assertEquals(name, RequestSender.getResponseBodyElementFromCall("name"));
+        Assert.assertEquals(username, RequestSender.getResponseBodyElementFromCall("username"));
+        Assert.assertEquals(email, RequestSender.getResponseBodyElementFromCall("email"));
+        Assert.assertEquals(street, RequestSender.getResponseBodyNestedElementFromCall("street", "address"));
+        Assert.assertEquals(suite, RequestSender.getResponseBodyNestedElementFromCall("suite", "address"));
+        Assert.assertEquals(city, RequestSender.getResponseBodyNestedElementFromCall("city", "address"));
+        Assert.assertEquals(zipcode, RequestSender.getResponseBodyNestedElementFromCall("zipcode", "address"));
+        Assert.assertEquals(lat, RequestSender.getResponseBodyNestedElementFromCall("lat", "address", "geo"));
+        Assert.assertEquals(lng, RequestSender.getResponseBodyNestedElementFromCall("lng", "address", "geo"));
+        Assert.assertEquals(phone, RequestSender.getResponseBodyElementFromCall("phone"));
+        Assert.assertEquals(website, RequestSender.getResponseBodyElementFromCall("website"));
+        Assert.assertEquals(c_name, RequestSender.getResponseBodyNestedElementFromCall("name", "company"));
+        Assert.assertEquals(catchPhrase, RequestSender.getResponseBodyNestedElementFromCall("catchPhrase", "company"));
+        Assert.assertEquals(bs, RequestSender.getResponseBodyNestedElementFromCall("bs", "company"));
+
     }
 
     @AfterClass()
