@@ -2,13 +2,14 @@ Feature: Comments API call returns list of all comments
 
   Scenario Outline: Check comment post id
     When user requests for the comment by it's id
-      |id|<id>|
+      |id        |<id>|
     Then response code is 200
     And response for the comment returns correct post id
-      |postID|<postID>|
+      |postId    |<postId>|
+
 
     Examples:
-      |id  |postID |
+      |id  |postId |
       |1   |1      |
       |15  |3      |
       |196 |40     |
@@ -56,11 +57,11 @@ Feature: Comments API call returns list of all comments
 
     Examples:
       |id  |body                                                                                                                                                                     |
-      |1   |laudantium enim quasi est quidem magnam voluptate ipsam eos tempora quo necessitatibus dolor quam autem quasi reiciendis et nam sapiente accusantium                     |
-      |2   |est natus enim nihil est dolore omnis voluptatem numquam et omnis occaecati quod ullam at voluptatem error expedita pariatur nihil sint nostrum voluptatem reiciendis et |
-      |119 |et omnis consequatur ut in suscipit et voluptatem animi at ut dolores quos aut numquam esse praesentium aut placeat nam                                                  |
-      |433 |voluptatem minus asperiores quasi perspiciatis et aut blanditiis illo deserunt molestiae ab aperiam ex minima sed omnis at et repellat aut incidunt                      |
-      |500 |perspiciatis quis doloremque veniam nisi eos velit sed id totam inventore voluptatem laborum et eveniet aut aut aut maxime quia temporibus ut omnis                      |
+      |1   |laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium                     |
+      |2   |est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et |
+      |119 |et omnis consequatur ut\nin suscipit et voluptatem\nanimi at ut\ndolores quos aut numquam esse praesentium aut placeat nam                                                  |
+      |433 |voluptatem minus asperiores quasi\nperspiciatis et aut blanditiis illo deserunt molestiae ab aperiam\nex minima sed omnis at\net repellat aut incidunt                      |
+      |500 |perspiciatis quis doloremque\nveniam nisi eos velit sed\nid totam inventore voluptatem laborum et eveniet\naut aut aut maxime quia temporibus ut omnis                      |
 
   Scenario Outline: Check that call for not-exiting comment returns 404
     When user requests for the comment by it's id

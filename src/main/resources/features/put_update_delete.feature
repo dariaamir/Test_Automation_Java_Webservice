@@ -19,6 +19,27 @@ Feature: User is able to create, edit and delete posts
 
 
   Scenario Outline: Update a post
+    When user finds a post by id and updates all post fields
+      |postId |<postId> |
+      |title |<title> |
+      |body  |<body>  |
+      |userId|<userId>|
+    Then response code is 200
+    And response contains updated data
+      |title |<title> |
+      |body  |<body>  |
+      |userId|<userId>|
+
+    Examples:
+      |postId|title                         |body                                    |userId|
+      |1     |Amet est placerat             |In egestas erat imperdiet               |5     |
+      |2     |Turpis in eu mi bibendum      |Neque egestas congue quisque egestas    |6     |
+      |3     |Sed egestas egestas fringilla |phasellus faucibus scelerisque eleifend |7     |
+
+
+
+
+  Scenario Outline: Update one value in existing post
     When user finds a post by id and updates one field with new value
       |postId |<postId> |
       |post_field  |<post_field>  |
@@ -30,7 +51,7 @@ Feature: User is able to create, edit and delete posts
 
     Examples:
     |postId|post_field |new_value                   |
-    |1     |userID     | 2                          |
+    |1     |userId     | 2                          |
     |2     |title      |Lorem ipsum dolor sit ametm |
     |3     |body       |consectetur adipiscing elit |
 
@@ -38,11 +59,12 @@ Feature: User is able to create, edit and delete posts
 
   Scenario Outline: Delete post
     When user deleted post by post id
-      |postID|<postID>|
+      |postId|<postId>|
     Then response code is 200
+    And response body is empty
 
   Examples:
-    |postID  |
+    |postId  |
     |1       |
     |101     |
     |255     |

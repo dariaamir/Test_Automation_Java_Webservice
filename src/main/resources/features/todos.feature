@@ -7,7 +7,8 @@ Feature: Todos API call returns list of all todos
       |id|<id>|
     Then response code is 200
     And response returns correct number of todos
-      |number|<number>|
+      |number        |<number>|
+      |search_request|$.[*].id|
 
     Examples:
       |id |number |
@@ -20,7 +21,8 @@ Feature: Todos API call returns list of all todos
       |id|<id>|
     Then response code is 200
     And response returns correct number of completed todos
-      |number|<number>|
+      |number        |<number>                  |
+      |search_request|$..[?(@.completed==true)] |
 
     Examples:
       |id |number|
