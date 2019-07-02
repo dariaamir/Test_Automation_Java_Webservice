@@ -5,11 +5,11 @@ Feature: Comments API call returns list of all comments
       |id        |<id>|
     Then response code is 200
     And response for the comment returns correct post id
-      |postID    |<postID>|
+      |postId    |<postId>|
 
 
     Examples:
-      |id  |postID |
+      |id  |postId |
       |1   |1      |
       |15  |3      |
       |196 |40     |

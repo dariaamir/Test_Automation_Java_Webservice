@@ -4,11 +4,11 @@ Feature: Posts API call returns list of all posts
     When user requests for the post by it's id
       |id|<id>|
     Then response code is 200
-    And response for the post returns correct user ID
-      |author|<authorID>|
+    And response for the post returns correct user id
+      |author|<authorId>|
 
     Examples:
-      |id |authorID |
+      |id |authorId |
       |1  |1        |
       |17 |2        |
       |55 |6        |

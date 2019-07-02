@@ -22,7 +22,7 @@ Feature: Todos API call returns list of all todos
     Then response code is 200
     And response returns correct number of completed todos
       |number        |<number>                  |
-      |search_request|$..[?(@.completed==true)]|
+      |search_request|$..[?(@.completed==true)] |
 
     Examples:
       |id |number|

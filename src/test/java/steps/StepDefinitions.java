@@ -4,11 +4,9 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
-import cucumber.api.java.sl.In;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import support.RequestSender;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -59,15 +57,27 @@ public class StepDefinitions {
         RequestSender.requestSend("POST", BaseURL + "posts", callBody);
     }
 
+    @When("^user finds a post by id and updates all post fields$")
+    public void userFindsAPostByIdAndUpdatesAllPostFields(DataTable dataTable) throws IOException {
+        Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
+        String postId = dataMap.get("postId");
+        String title = dataMap.get("title");
+        String body = dataMap.get("body");
+        String userId = dataMap.get("userId");
+        String callBody = String.format("{\"id\": \"%s\", \"title\": \"%s\", \"body\": \"%s\", \"userId\": %s}"
+                ,postId, title, body, userId);
+        RequestSender.requestSend("PUT", BaseURL + "posts/" + postId, callBody);
+    }
+
     @When("^user finds a post by id and updates one field with new value$")
     public void userUpdatesPostFieldWithNewValue(DataTable dataTable) throws IOException {
 
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String post_field = dataMap.get("post_field");
         String new_value = dataMap.get("new_value");
-        String postID = dataMap.get("postID");
+        String postId = dataMap.get("postId");
         String callBody = String.format("{\"%s\": \"%s\"}", post_field, new_value);
-        RequestSender.requestSend("PATCH", BaseURL + "posts/" + postID, callBody);
+        RequestSender.requestSend("PATCH", BaseURL + "posts/" + postId, callBody);
     }
 
     //Responce codes
@@ -79,21 +89,21 @@ public class StepDefinitions {
 
     //Post
 
-    @Then("^response for the post returns correct user ID$")
+    @And("^response for the post returns correct user id$")
     public void response_for_the_post_returns_correct_user_id(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String author = dataMap.get("author");
         Assert.assertEquals(author, RequestSender.getResponseBodyElementFromCall("userId"));
     }
 
-    @Then("^response for the post returns correct title$")
+    @And("^response for the post returns correct title$")
     public void response_for_the_post_returns_correct_title(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String title = dataMap.get("title");
         Assert.assertEquals(title, RequestSender.getResponseBodyElementFromCall("title"));
     }
 
-    @Then("^response for the post returns correct body$")
+    @And("^response for the post returns correct body$")
     public void response_for_the_post_returns_correct_body(DataTable dataTable) {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String body = dataMap.get("body");
@@ -101,7 +111,7 @@ public class StepDefinitions {
     }
 
     @Then("^response contains updated data$")
-    public void responseContainsNewPostId(DataTable dataTable) throws IOException {
+    public void responseContainsUpdatedData(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String title = dataMap.get("title");
         String body = dataMap.get("body");
@@ -112,7 +122,7 @@ public class StepDefinitions {
         Assert.assertEquals(userId, RequestSender.getResponseBodyElementFromCall("userId"));
     }
 
-    @Then("^response returns updated value at the changed field$")
+    @And("^response returns updated value at the changed field$")
     public void responseReturnsUpdatedValueAtTheChangedField(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String postField = dataMap.get("post_field");
@@ -120,10 +130,10 @@ public class StepDefinitions {
         Assert.assertEquals(changedValue, RequestSender.getResponseBodyElementFromCall(postField));
     }
 
-    @Then("^user deleted post by post id$")
-    public void userDeletedPostByPostId(DataTable dataTable) throws IOException {
+    @When("^user deleted post by post id$")
+    public void userDeletedPostBypostId(DataTable dataTable) throws IOException {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
-        String id = dataMap.get("postID");
+        String id = dataMap.get("postId");
         RequestSender.requestSend("DELETE", BaseURL + "posts/" + id, "");
     }
 
@@ -135,28 +145,28 @@ public class StepDefinitions {
 
     // Comment
 
-    @Then("^response for the comment returns correct post id$")
+    @And("^response for the comment returns correct post id$")
     public void response_or_the_comment_returns_correct_poctid(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
-        String postID = dataMap.get("postID");
-        Assert.assertEquals(postID, RequestSender.getResponseBodyElementFromCall("postId"));
+        String postId = dataMap.get("postId");
+        Assert.assertEquals(postId, RequestSender.getResponseBodyElementFromCall("postId"));
     }
 
-    @Then("^response for the comment returns correct name$")
+    @And("^response for the comment returns correct name$")
     public void response_or_the_comment_returns_correct_name(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String name = dataMap.get("name");
         Assert.assertEquals(name, RequestSender.getResponseBodyElementFromCall("name"));
     }
 
-    @Then("^response for the comment returns correct email$")
+    @And("^response for the comment returns correct email$")
     public void response_or_the_comment_returns_correct_email(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String email = dataMap.get("email");
         Assert.assertEquals(email, RequestSender.getResponseBodyElementFromCall("email"));
     }
 
-    @Then("^response for the comment returns correct body$")
+    @And("^response for the comment returns correct body$")
     public void response_for_the_comment_returns_correct_body(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String body = dataMap.get("body");
@@ -165,7 +175,7 @@ public class StepDefinitions {
     }
 
     // Todos
-    @Then("^response returns correct number of todos$")
+    @And("^response returns correct number of todos$")
     public void response_returns_correct_number_of_todos(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         int number = Integer.parseInt(dataMap.get("number"));
@@ -173,7 +183,7 @@ public class StepDefinitions {
         Assert.assertEquals(number, RequestSender.getResponseBodyNumberOfElementsFromCall(searchString));
     }
 
-    @Then("^response returns correct number of completed todos$")
+    @And("^response returns correct number of completed todos$")
     public void responseReturnsCorrectNumberOfCompletedTodos(DataTable dataTable) {
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         int number = Integer.parseInt(dataMap.get("number"));
@@ -181,7 +191,7 @@ public class StepDefinitions {
         Assert.assertEquals(number, RequestSender.getResponseBodyNumberOfElementsFromCall(searchString));
     }
 
-    @Then("^response returns correct status$")
+    @And("^response returns correct status$")
     public void responseReturnsCorrectStatus(DataTable dataTable){
         Map<String, String> dataMap = dataTable.asMap(String.class, String.class);
         String status = dataMap.get("status");
@@ -189,8 +199,9 @@ public class StepDefinitions {
     }
 
     @Then("^todos list is empty$")
-    public void todosListLsEmpty() throws IOException {
-        Assert.assertEquals(0, RequestSender.get_data_from_todos_group("all_todos_count", connection));
+    public void todosListLsEmpty(){
+        String emptyResponse = "[]\n";
+        Assert.assertEquals(emptyResponse, RequestSender.getResponseBodyFromCall());
     }
 
     @AfterClass()
