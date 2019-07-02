@@ -1,7 +1,5 @@
 Feature: Todos API call returns list of all todos
 
-  Background:
-
   Scenario Outline: Get all todos for user
     When user requests for all todos by user id
       |id|<id>|
