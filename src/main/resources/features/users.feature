@@ -35,6 +35,6 @@ Feature: Create new user
 
   Examples:
     |name           |username        |email               |street                  |suite           |city      |zipcode        |lat|lng|phone|website|c_name|catchPhrase|bs|
-    |luctus accumsan|tortor posuere  |ac ut consequat     |semper viverra          |nam libero justo|laoreet   |sit amet cursus|1|2|3|4|5|6|7|
-    |sit amet       |dictum sit amet |usto donec enim diam|vulputate ut pharetra   |sit amet aliquam|id diam   |maecenas       |1|2|3|4|5|6|7|
-    |ultricies mi   |eget            |mauris pharetra     |et ultrices neque ornare|aenean euismod  |elementum |nisi quis      |1|2|3|4|5|6|7|
+    |luctus accumsan|tortor posuere  |ac ut consequat     |semper viverra          |nam libero justo|laoreet   |sit amet cursus|luctus |accumsan |tortor |posuere |consequat |semper |viverra |
+    |sit amet       |dictum sit amet |usto donec enim diam|vulputate ut pharetra   |sit amet aliquam|id diam   |maecenas       |libero |justo |laoreet |sit amet|cursus |sit amet|dictum |
+    |ultricies mi   |eget            |mauris pharetra     |et ultrices neque ornare|aenean euismod  |elementum |nisi quis      |donec |enim |diam |vulputate |ut pharetra|aliquam |id diam|

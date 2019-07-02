@@ -1,6 +1,5 @@
 package classes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import cucumber.api.java.bs.A;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
