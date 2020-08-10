@@ -1,4 +1,4 @@
-# TA_2_Java_Webservice_Test_Automation
+# Test_Automation_Java_Webservice
 Webservice testing
 
 Educational project in webservice API test automation
